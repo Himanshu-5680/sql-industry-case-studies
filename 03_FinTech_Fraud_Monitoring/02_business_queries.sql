@@ -27,5 +27,3 @@ DELETE FROM `bank_transactions`
 WHERE `Txn_ID` IN ('T001','T002');
 
 SELECT * FROM `bank_transactions`;
-
-            -- THE END --

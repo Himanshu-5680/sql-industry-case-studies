@@ -1,5 +1,5 @@
 -- Clearing the table if exists.
-DROP TABLE IF EXISTS `store_inventory`;
+DROP TABLE IF EXISTS `Store_Inventory`;
 -- Creating the table.
 CREATE TABLE `Store_Inventory`(
 `Product_ID` INT PRIMARY KEY NOT NULL ,
