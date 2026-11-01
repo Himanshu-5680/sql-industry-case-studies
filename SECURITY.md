@@ -1,3 +1,5 @@
-# Security Policy
+﻿# Security Policy
+## Supported Versions
+All current SQL case study scripts are actively maintained.
 ## Reporting a Vulnerability
-Please report any SQL injection or database schema vulnerabilities via GitHub Issues.
+Report any SQL injection or schema issues via GitHub Issues.
