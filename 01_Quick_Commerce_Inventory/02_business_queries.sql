@@ -23,4 +23,3 @@ WHERE `Product_ID` IN (2,4);
 
 SELECT * FROM `store_inventory`;
             
-            -- THE END --

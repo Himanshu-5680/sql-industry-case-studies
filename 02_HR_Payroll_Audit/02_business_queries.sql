@@ -28,4 +28,3 @@ DELETE FROM `employee_records`
 WHERE `Emp_ID` IN ('E004','E005');
 SELECT * FROM `employee_records`;
 
-            -- THE END --
