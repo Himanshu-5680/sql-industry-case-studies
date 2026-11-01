@@ -1,11 +1,9 @@
-name: SQL Portfolio CI
+﻿name: SQL Portfolio CI
 on: [push, pull_request]
 jobs:
   validate-sql:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify SQL Scripts Exist
-        run: |
-          echo "Checking all SQL scripts in repository..."
-          find . -name "*.sql"
+      - name: List & Verify All SQL Scripts
+        run: find . -maxdepth 3 -name "*.sql" -print
