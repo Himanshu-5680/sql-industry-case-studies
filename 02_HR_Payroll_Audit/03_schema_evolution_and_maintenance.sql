@@ -28,4 +28,3 @@ CREATE TABLE `employee_records`(
 
 SELECT * FROM `employee_records`;
 
-            -- THE END --

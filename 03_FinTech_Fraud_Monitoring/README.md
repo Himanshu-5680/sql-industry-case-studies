@@ -1,35 +1,37 @@
 # 🏦 Case Study 03: FinTech Transaction Logging & Fraud Monitoring System
 
-![Domain](https://img.shields.io/badge/Domain-FinTech_&_Banking_Compliance-0984E3?style=flat-square)
-![Focus](https://img.shields.io/badge/Focus-AML_Fraud_Detection_&_PII_Privacy-FD79A8?style=flat-square)
+![Domain](https://img.shields.io/badge/Domain-FinTech_%26_Banking_Compliance-0984E3?style=flat-square)
+![Focus](https://img.shields.io/badge/Focus-AML_Fraud_Detection,_PII_Privacy_%26_Audit_Logs-FD79A8?style=flat-square)
 
 ## 📖 Executive Summary
 
-Financial institutions process thousands of ledger entries daily, requiring automated Anti-Money Laundering (AML) checks and strict customer privacy (GDPR/PII) compliance. This project builds a transaction monitoring workflow to flag high-value transfers, fix ledger ingestion errors, strip sensitive PII columns, and reset monthly audit tables.
+Financial institutions process thousands of ledger entries daily, requiring automated Anti-Money Laundering (AML) checks, strict customer privacy (GDPR/PII) compliance, and relational audit trails. This project builds an end-to-end transaction monitoring and relational logging system.
 
 ---
 
 ## 📌 Phase 1: Ledger Logging & Automated Risk Flagging
 
-* **High-Capacity Transaction Schema:** Created `bank_transactions` utilizing `BIGINT` to safely handle large account numbers and transaction volumes.
-* **High-Value Anomaly Detection:** Queried transfers exceeding `100,000` to identify potential money-laundering or fraud patterns.
-* **Automated AML Rule Engine:**
-  * Flagged high-risk transactions (`Txn_Amount >= 100,000`) by setting `Audit_Status = Flagged`.
-  * Cleared standard transactions (`Txn_Amount < 100,000`) by setting `Audit_Status = Verified`.
-* **Ledger Reconciliation:** Rectified mislogged customer names and transaction amounts (`T004`) in a single atomic `UPDATE`.
-* **Compliance Filtering & Test Purge:** Isolated unverified transactions (`Audit_Status != Verified`) and purged sandbox test entries (`T001`, `T002`).
+* **High-Capacity Transaction Schema:** Created `bank_transactions` utilizing `BIGINT` and queried transfers exceeding `100,000`.
+* **Automated AML Rule Engine:** Flagged high-risk transfers (`>= 100,000`) as `Flagged` and standard transfers (`< 100,000`) as `Verified`.
+* **Ledger Reconciliation & Test Purge:** Rectified mislogged entries (`T004`) and purged sandbox test transactions (`T001`, `T002`).
 
 ---
 
 ## 🚀 Phase 2: PII Privacy Compliance & Cycle Reset
 
-* **Emergency Contact Logging:** Added `Customer_Phone BIGINT` via `ALTER TABLE` for high-risk transaction verification calls.
-* **IBAN / Alphanumeric Account Support:** Upgraded `Account_No` from `BIGINT` to `VARCHAR(25)` using `MODIFY COLUMN` to support alphanumeric international bank codes.
-* **PII Data Masking (Privacy Law Compliance):** Permanently dropped the `Customer_Name` column (`DROP COLUMN`) so audit logs only expose anonymized IDs and account numbers.
-* **Audit Extraction & Instant Cycle Reset:** Extracted final `Flagged` records for regulatory reporting and executed `TRUNCATE TABLE bank_transactions` to prepare a clean slate for the next month ledger.
+* **IBAN Support & PII Masking:** Upgraded `Account_No` to `VARCHAR(25)` and permanently dropped `Customer_Name` (`DROP COLUMN`) for privacy compliance.
+* **Instant Cycle Reset:** Extracted final `Flagged` records and executed `TRUNCATE TABLE` for monthly ledger resets.
+
+---
+
+## 🔗 Phase 3: Relational Fraud Audit Logs & Schema Renaming
+
+* **Relational AML Audit Trail (`FOREIGN KEY`):** Architected `fraud_audit_logs` (`Log_ID`, `Txn_ID`, `Auditor_Remarks`) linked via `FOREIGN KEY (Txn_ID) REFERENCES bank_transactions(Txn_ID)` to track investigator notes per transaction.
+* **Schema Refactoring (`CHANGE COLUMN`):** Renamed `Audit_Status` to `Verification_Status VARCHAR(25)` using `ALTER TABLE ... CHANGE` and tested `Branch_Code` lifecycle modifications.
+* **Parent-Child Dependency Management:** Demonstrated safe child-table teardown (`TRUNCATE TABLE fraud_audit_logs` followed by `DROP TABLE fraud_audit_logs`) without violating foreign key dependencies.
 
 ---
 
 ## 💡 Key Business Impact
 
-* Enforced automated AML risk thresholds (`100K+`) and achieved PII privacy compliance by stripping customer names from audit tables.
+* Established a relational AML audit trail linking investigator remarks directly to flagged ledger transactions while maintaining strict foreign-key dependency safety.

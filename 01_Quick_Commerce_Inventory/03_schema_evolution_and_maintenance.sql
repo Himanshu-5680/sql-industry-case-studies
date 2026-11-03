@@ -20,4 +20,3 @@ TRUNCATE TABLE `store_inventory`;
 
 SELECT * FROM `Store_Inventory`;
 
-                -- The End --

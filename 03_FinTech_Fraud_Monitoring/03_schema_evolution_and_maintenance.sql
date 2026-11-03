@@ -18,4 +18,3 @@ DROP COLUMN `Customer_Name`;
  TRUNCATE TABLE `bank_transactions`;
 
 SELECT * FROM `bank_transactions`;
-            -- THE END --
